@@ -12,6 +12,7 @@ namespace ConsultWill
 {
     public partial class Configure : Form
     {
+
         public Configure()
         {
             InitializeComponent();
@@ -27,13 +28,8 @@ namespace ConsultWill
                 DialogResult result = folderDlg.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    if (Properties.Settings.Default.StorageFolder != null)
-                        txtStorageFolder.Text = Properties.Settings.Default.StorageFolder;
-
-                    Environment.SpecialFolder root = folderDlg.RootFolder;
-                    Properties.Settings.Default.StorageFolder = folderDlg.SelectedPath;
-                    Properties.Settings.Default.Save();
-
+                    if (folderDlg.SelectedPath != null)
+                        txtStorageFolder.Text = folderDlg.SelectedPath;
                 }
             }
             catch (Exception ex)
@@ -45,12 +41,30 @@ namespace ConsultWill
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            if (txtStorageFolder.Text.Length > 0)
+            {
+                StaticFunctions.StorageFolder = txtStorageFolder.Text.Trim();
+            }
+
+            if (radModeDoctor.Checked)
+                StaticFunctions.UserMode = UserMode.Doctor;
+            else if (radModePA.Checked)
+                StaticFunctions.UserMode = UserMode.PA;
 
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Configure_Load(object sender, EventArgs e)
+        {
+            if (StaticFunctions.StorageFolder != null)
+                txtStorageFolder.Text = StaticFunctions.StorageFolder;
+
+            radModeDoctor.Checked = (StaticFunctions.UserMode == UserMode.Doctor);
+            radModePA.Checked = (StaticFunctions.UserMode == UserMode.PA);
         }
     }
 }

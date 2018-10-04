@@ -34,13 +34,16 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblStorageFolder = new System.Windows.Forms.Label();
+            this.radModePA = new System.Windows.Forms.RadioButton();
+            this.radModeDoctor = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // btnChooseFolder
             // 
-            this.btnChooseFolder.Location = new System.Drawing.Point(548, 26);
+            this.btnChooseFolder.Location = new System.Drawing.Point(411, 21);
+            this.btnChooseFolder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnChooseFolder.Name = "btnChooseFolder";
-            this.btnChooseFolder.Size = new System.Drawing.Size(31, 22);
+            this.btnChooseFolder.Size = new System.Drawing.Size(26, 20);
             this.btnChooseFolder.TabIndex = 0;
             this.btnChooseFolder.Text = "...";
             this.btnChooseFolder.UseVisualStyleBackColor = true;
@@ -48,17 +51,19 @@
             // 
             // txtStorageFolder
             // 
-            this.txtStorageFolder.Location = new System.Drawing.Point(12, 26);
+            this.txtStorageFolder.Location = new System.Drawing.Point(9, 21);
+            this.txtStorageFolder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtStorageFolder.Name = "txtStorageFolder";
-            this.txtStorageFolder.Size = new System.Drawing.Size(530, 22);
+            this.txtStorageFolder.Size = new System.Drawing.Size(398, 20);
             this.txtStorageFolder.TabIndex = 1;
             // 
             // btnOk
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(423, 67);
+            this.btnOk.Location = new System.Drawing.Point(317, 95);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.Size = new System.Drawing.Size(56, 19);
             this.btnOk.TabIndex = 2;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -67,9 +72,10 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(504, 67);
+            this.btnCancel.Location = new System.Drawing.Point(378, 95);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(56, 19);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -78,26 +84,53 @@
             // lblStorageFolder
             // 
             this.lblStorageFolder.AutoSize = true;
-            this.lblStorageFolder.Location = new System.Drawing.Point(9, 6);
+            this.lblStorageFolder.Location = new System.Drawing.Point(7, 5);
+            this.lblStorageFolder.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblStorageFolder.Name = "lblStorageFolder";
-            this.lblStorageFolder.Size = new System.Drawing.Size(164, 17);
+            this.lblStorageFolder.Size = new System.Drawing.Size(124, 13);
             this.lblStorageFolder.TabIndex = 4;
             this.lblStorageFolder.Text = "DropBox Folder Location";
             // 
+            // radModePA
+            // 
+            this.radModePA.AutoSize = true;
+            this.radModePA.Location = new System.Drawing.Point(9, 46);
+            this.radModePA.Name = "radModePA";
+            this.radModePA.Size = new System.Drawing.Size(69, 17);
+            this.radModePA.TabIndex = 5;
+            this.radModePA.TabStop = true;
+            this.radModePA.Text = "PA Mode";
+            this.radModePA.UseVisualStyleBackColor = true;
+            // 
+            // radModeDoctor
+            // 
+            this.radModeDoctor.AutoSize = true;
+            this.radModeDoctor.Location = new System.Drawing.Point(9, 74);
+            this.radModeDoctor.Name = "radModeDoctor";
+            this.radModeDoctor.Size = new System.Drawing.Size(87, 17);
+            this.radModeDoctor.TabIndex = 6;
+            this.radModeDoctor.TabStop = true;
+            this.radModeDoctor.Text = "Doctor Mode";
+            this.radModeDoctor.UseVisualStyleBackColor = true;
+            // 
             // Configure
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(597, 109);
+            this.ClientSize = new System.Drawing.Size(448, 126);
+            this.Controls.Add(this.radModeDoctor);
+            this.Controls.Add(this.radModePA);
             this.Controls.Add(this.lblStorageFolder);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtStorageFolder);
             this.Controls.Add(this.btnChooseFolder);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Configure";
             this.Text = "Configure";
+            this.Load += new System.EventHandler(this.Configure_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -111,5 +144,7 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblStorageFolder;
+        private System.Windows.Forms.RadioButton radModePA;
+        private System.Windows.Forms.RadioButton radModeDoctor;
     }
 }

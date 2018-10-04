@@ -34,5 +34,17 @@ namespace ConsultWill.Properties {
                 this["StorageFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int UserMode {
+            get {
+                return ((int)(this["UserMode"]));
+            }
+            set {
+                this["UserMode"] = value;
+            }
+        }
     }
 }

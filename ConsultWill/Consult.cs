@@ -11,16 +11,14 @@ using System.IO;
 
 namespace ConsultWill
 {
-    enum UserMode
-    {
-        Doctor,
-        PA
-    }
+
 
     public partial class frmConsult : Form
     {
 
-        FileSystemWatcher watcher = null;
+        FileSystemWatcher _coffeeWatcher = null;
+        FileSystemWatcher _patientWatcher = null;
+
         private UserMode _mode = UserMode.Doctor;
         public frmConsult()
         {
@@ -29,30 +27,20 @@ namespace ConsultWill
 
         private void btnConfigure_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Configure cfg = new Configure();
-                cfg.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                StaticFunctions.HandleException(ex);
-            }
+
         }
 
         private void frmConsult_Load(object sender, EventArgs e)
         {
-            //Properties.Settings.Default.StorageFolder = "";
-            //Properties.Settings.Default.Save();
 
             try
             {
                 bool setStorageLocation = false;
-                if (Properties.Settings.Default.StorageFolder == null)
+                if (StaticFunctions.StorageFolder == null)
                 {
                     setStorageLocation = true;
                 }
-                else if (Properties.Settings.Default.StorageFolder.Length <= 0)
+                else if (StaticFunctions.StorageFolder.Length <= 0)
                 {
                     setStorageLocation = true;
                 }
@@ -60,10 +48,17 @@ namespace ConsultWill
                 if (setStorageLocation)
                     btnConfigure_Click(this, null);
 
+
                 this.ActiveControl = txtFindPatient;
                 WatchForCoffee();
+                
+                btnOrderCoffee.Enabled = (StaticFunctions.UserMode == UserMode.Doctor);
 
+                lvwTodaysPatients.View = View.Details;
 
+                LoadTodaysPatients();
+
+                //WatchForChangesToTodaysPatients();
             }
             catch (Exception ex)
             {
@@ -167,7 +162,8 @@ namespace ConsultWill
                 btnCompleteConsult.Enabled = (lstPatients.SelectedItem != null);
                 btnInstructionsForPa.Enabled = (lstPatients.SelectedItem != null);
                 btnAttachFile.Enabled = (lstPatients.SelectedItem != null);
-
+                btnAddTodaysConsults.Enabled = (lstPatients.SelectedItem != null);
+                btnViewPatientFile.Enabled = (lstPatients.SelectedItem != null);
                 PopulatePatientAttachedFiles();
 
             }
@@ -242,7 +238,7 @@ namespace ConsultWill
                     string fileName = Path.GetFileName(selectedFile);
 
                     File.Copy(selectedFile, radFolder + fileName);
-
+                    File.Delete(selectedFile);
                     PopulatePatientAttachedFiles();
                 }
             }
@@ -318,13 +314,13 @@ namespace ConsultWill
 
             try
             {
-                watcher = new FileSystemWatcher();
-                watcher.Path = StaticFunctions.ClipBoardFolder;
-                watcher.Filter = StaticFunctions.CoffeeFile;
+                _coffeeWatcher = new FileSystemWatcher();
+                _coffeeWatcher.Path = StaticFunctions.ClipBoardFolder;
+                _coffeeWatcher.Filter = StaticFunctions.CoffeeFile;
 
                 // Watch for all changes specified in the NotifyFilters
                 //enumeration.
-                watcher.NotifyFilter = NotifyFilters.Attributes |
+                _coffeeWatcher.NotifyFilter = NotifyFilters.Attributes |
                 NotifyFilters.CreationTime |
                 NotifyFilters.DirectoryName |
                 NotifyFilters.FileName |
@@ -333,15 +329,17 @@ namespace ConsultWill
                 NotifyFilters.Security |
                 NotifyFilters.Size;
 
-                watcher.Changed += new FileSystemEventHandler(coffeeFileChanged);
+                _coffeeWatcher.Changed += new FileSystemEventHandler(coffeeFileChanged);
 
-                watcher.EnableRaisingEvents = true;
+                _coffeeWatcher.EnableRaisingEvents = true;
             }
             catch (Exception ex)
             {
                 StaticFunctions.HandleException(ex);
             }
         }
+
+
 
         private void coffeeFileChanged(object sender, EventArgs e)
         {
@@ -358,6 +356,18 @@ namespace ConsultWill
         }
 
 
+        private void todaysPatientsChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadTodaysPatients();
+            }
+            catch (Exception ex)
+            {
+                StaticFunctions.HandleException(ex);
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -371,13 +381,13 @@ namespace ConsultWill
             {
                 _mode = UserMode.Doctor;
 
-                if (watcher != null)
+                if (_coffeeWatcher != null)
                 {
-                    watcher.EnableRaisingEvents = false;
-                    watcher = null;
+                    _coffeeWatcher.EnableRaisingEvents = false;
+                    _coffeeWatcher = null;
                 }
 
-                string coffeeFile = StaticFunctions.ClipBoardFolder + StaticFunctions.CoffeeFile;
+                string coffeeFile = StaticFunctions.ClipBoardFolder + "\\" + StaticFunctions.CoffeeFile;
 
                 File.WriteAllText(coffeeFile, DateTime.UtcNow.ToString());
 
@@ -395,17 +405,158 @@ namespace ConsultWill
             {
 
                 string patientFolder = GetSelectedPatientFolder();
-                string patientDetailsFile = patientFolder + "\\" + StaticFunctions.PatientFile;
+                string patientDetailsFilePng = patientFolder + "\\" + StaticFunctions.PatientFilePng;
+                string patientDetailsFilePdf = patientFolder + "\\" + StaticFunctions.PatientFilePdf;
 
-                if (File.Exists(patientDetailsFile))
-                    System.Diagnostics.Process.Start(patientDetailsFile);
+                if (File.Exists(patientDetailsFilePng))
+                    System.Diagnostics.Process.Start(patientDetailsFilePng);
+                else if (File.Exists(patientDetailsFilePdf))
+                    System.Diagnostics.Process.Start(patientDetailsFilePdf);
                 else
-                    MessageBox.Show(patientDetailsFile + " does not exist", "Missing Patient File", MessageBoxButtons.OK, MessageBoxIcon.Information);            }
+                    MessageBox.Show(patientDetailsFilePng + " does not exist", "Missing Patient File", MessageBoxButtons.OK, MessageBoxIcon.Information);            }
             catch (Exception ex)
             {
                 StaticFunctions.HandleException(ex);
             }
         }
+
+        private void lstPatients_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstPatients.SelectedItem != null)
+                {
+                    if (lstPatients.SelectedItem.ToString().Length != 0)
+                    {
+                        btnViewPatientFile_Click(this, null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                StaticFunctions.HandleException(ex);
+            }
+        }
+
+        private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Configure cfg = new Configure();
+                cfg.ShowDialog();
+                btnOrderCoffee.Enabled = (StaticFunctions.UserMode == UserMode.Doctor);
+            }
+            catch (Exception ex)
+            {
+                StaticFunctions.HandleException(ex);
+            }
+        }
+
+        private void btnAddTodaysConsults_Click(object sender, EventArgs e)
+        {
+            string patient = lstPatients.SelectedItem.ToString();
+            if (StaticFunctions.GetTodaysConsults().Contains(patient))
+            {
+                MessageBox.Show("The patient is already in todays Patient list", "Patient Already Scheduled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                string[] pat = new string[] { patient, DateTime.UtcNow.ToString() };
+                var itm = new ListViewItem(pat);
+                StaticFunctions.AddPatientToTodaysConsults(patient);
+                lvwTodaysPatients.Items.Add(itm);
+            }
+        }
+
+        private void lvwTodaysPatients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lvwTodaysPatients.SelectedItems.Count > 0)
+                {
+                    txtFindPatient.Text = lvwTodaysPatients.SelectedItems[0].Text;
+                    txtFindPatient_TextChanged(this, null);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                StaticFunctions.HandleException(ex);
+            }
+        }
+
+        private void LoadTodaysPatients()
+        {
+            lvwTodaysPatients.Items.Clear();
+            foreach (var patient in StaticFunctions.GetTodaysConsults())
+            {
+
+                string[] pat = new string[] { patient, DateTime.UtcNow.ToString() };
+                var itm = new ListViewItem(pat);
+                lvwTodaysPatients.Items.Add(itm);
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (StaticFunctions.UserMode == UserMode.Doctor)
+                {
+                    LoadTodaysPatients();
+                }
+            }
+            catch (Exception ex)
+            {
+                StaticFunctions.HandleException(ex);
+            }
+        }
+
+        private void btnClearTodaysConsults_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StaticFunctions.ClearTodaysPatients();
+                lvwTodaysPatients.Items.Clear();
+            }
+            catch (Exception ex)
+            {
+                StaticFunctions.HandleException(ex);
+            }
+        }
+
+        //public void WatchForChangesToTodaysPatients()
+        //{
+
+        //    try
+        //    {
+        //        if (StaticFunctions.UserMode == UserMode.Doctor)
+        //        {
+        //            _patientWatcher = new FileSystemWatcher();
+        //            _patientWatcher.Path = StaticFunctions.ConsultTrackerFolder;
+        //            _patientWatcher.Filter = StaticFunctions.ConsultTrackerTodaysFile;
+
+        //            // Watch for all changes specified in the NotifyFilters
+        //            //enumeration.
+        //            _patientWatcher.NotifyFilter = NotifyFilters.Attributes |
+        //            NotifyFilters.CreationTime |
+        //            NotifyFilters.DirectoryName |
+        //            NotifyFilters.FileName |
+        //            NotifyFilters.LastAccess |
+        //            NotifyFilters.LastWrite |
+        //            NotifyFilters.Security |
+        //            NotifyFilters.Size;
+
+        //            _patientWatcher.Changed += new FileSystemEventHandler(todaysPatientsChanged);
+
+        //            _patientWatcher.EnableRaisingEvents = true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        StaticFunctions.HandleException(ex);
+        //    }
+        //}
     }
 
 }

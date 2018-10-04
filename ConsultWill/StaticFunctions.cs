@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Word;
+using System.IO;
 
 namespace ConsultWill
 {
+
+    public enum UserMode
+    {
+        Doctor,
+        PA
+    }
     public static class StaticFunctions
     {
         public static void HandleException(Exception ex)
@@ -22,14 +29,20 @@ namespace ConsultWill
         }
 
 
-        public static string PatientFile
+        public static string PatientFilePng
         {
             get { return "patient details.png"; }
         }
 
+        public static string PatientFilePdf
+        {
+            get { return "patient details.pdf"; }
+        }
+
+
         public static string PatientsRootFolder
         {
-            get { return Properties.Settings.Default.StorageFolder + "\\" + "PATIENTS"; }
+            get { return StorageFolder + "\\" + "PATIENTS"; }
         }
 
         public static void CreateWordDoc(string FileName)
@@ -103,15 +116,78 @@ namespace ConsultWill
         {
             get
             {
-                return Properties.Settings.Default.StorageFolder + "\\" + "CLIPBOARD";
+                return StorageFolder + "\\" + "CLIPBOARD";
             }
         }
 
+        public static string ConsultTrackerFolder
+        {
+            get
+            {
+                return StorageFolder + "\\" + "ConsultTracker";
+            }
+        }
+
+        public static string ConsultTrackerTodaysFile
+        {
+            get
+            {
+                return DateTime.Now.Year.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Day.ToString() + ".txt";
+            }
+        }
+
+        public static void AddPatientToTodaysConsults (string Patient)
+        {
+            if (!Directory.Exists(ConsultTrackerFolder))
+            {
+                Directory.CreateDirectory(ConsultTrackerFolder);
+            }
+            File.AppendAllText(ConsultTrackerFolder + "\\" + ConsultTrackerTodaysFile, Patient);
+            File.AppendAllText(ConsultTrackerFolder + "\\" + ConsultTrackerTodaysFile, @"|");
+        }
+
+        public static string [] GetTodaysConsults()
+        {
+            string[] tdPats;
+            if (Directory.Exists(ConsultTrackerFolder))
+            {
+                if (File.Exists (ConsultTrackerFolder + "\\" + ConsultTrackerTodaysFile))
+                {
+                    string todaysPatients = File.ReadAllText(ConsultTrackerFolder + "\\" + ConsultTrackerTodaysFile);
+                    tdPats =  todaysPatients.Split('|');
+
+                    return tdPats.Take(tdPats.Count() - 1).ToArray<string>();
+                    
+                }
+                else
+                {
+                    return new string[] { };
+                }
+            }
+            else
+            {
+                return new string[] { };
+            }
+            
+        }
+
+        public static void ClearTodaysPatients()
+        {
+            if (Directory.Exists(ConsultTrackerFolder))
+            {
+                if (File.Exists(ConsultTrackerFolder + "\\" + ConsultTrackerTodaysFile))
+                {
+                    File.Delete(ConsultTrackerFolder + "\\" + ConsultTrackerTodaysFile);
+                }
+                  
+            }
+
+        }
         public static string RootFolder
         {
             get
             {
-                return Properties.Settings.Default.StorageFolder + "\\" ;
+                return StorageFolder + "\\" ;
             }
         }
 
@@ -122,5 +198,26 @@ namespace ConsultWill
                 return  "Coffee.txt";
             }
         }
+
+        public static UserMode UserMode
+        {
+            get { return (UserMode)Properties.Settings.Default.UserMode; }
+            set { Properties.Settings.Default.UserMode = (int)value; }
+        }
+
+        public static string StorageFolder
+        {
+            get
+            {
+                return Properties.Settings.Default.StorageFolder;
+            }
+            set
+            {
+                Properties.Settings.Default.StorageFolder = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
     }
 }
