@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConsult));
             this.btnCreatePatient = new System.Windows.Forms.Button();
             this.btnAddTodaysConsults = new System.Windows.Forms.Button();
             this.txtFindPatient = new System.Windows.Forms.TextBox();
@@ -48,7 +49,9 @@
             this.colPatient = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnClearTodaysConsults = new System.Windows.Forms.Button();
+            this.picCoffee = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picCoffee)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCreatePatient
@@ -259,11 +262,26 @@
             this.btnClearTodaysConsults.UseVisualStyleBackColor = true;
             this.btnClearTodaysConsults.Click += new System.EventHandler(this.btnClearTodaysConsults_Click);
             // 
+            // picCoffee
+            // 
+            this.picCoffee.Image = ((System.Drawing.Image)(resources.GetObject("picCoffee.Image")));
+            this.picCoffee.InitialImage = ((System.Drawing.Image)(resources.GetObject("picCoffee.InitialImage")));
+            this.picCoffee.Location = new System.Drawing.Point(569, 443);
+            this.picCoffee.Margin = new System.Windows.Forms.Padding(2);
+            this.picCoffee.Name = "picCoffee";
+            this.picCoffee.Size = new System.Drawing.Size(53, 49);
+            this.picCoffee.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCoffee.TabIndex = 23;
+            this.picCoffee.TabStop = false;
+            this.picCoffee.Visible = false;
+            this.picCoffee.Click += new System.EventHandler(this.picCoffee_Click);
+            // 
             // frmConsult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(806, 571);
+            this.Controls.Add(this.picCoffee);
             this.Controls.Add(this.btnClearTodaysConsults);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.lvwTodaysPatients);
@@ -289,6 +307,7 @@
             this.Load += new System.EventHandler(this.frmConsult_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picCoffee)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,6 +334,7 @@
         private System.Windows.Forms.ColumnHeader colPatient;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnClearTodaysConsults;
+        private System.Windows.Forms.PictureBox picCoffee;
     }
 }
 

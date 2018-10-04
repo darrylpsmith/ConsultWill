@@ -345,9 +345,9 @@ namespace ConsultWill
         {
             try
             {
-                //MessageBox.Show("Coffe Please Sam :)", "Coffee", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                CoffeeOrder cf = new CoffeeOrder();
-                cf.ShowDialog();
+
+                ShowCoffeeImage(picCoffee);
+
             }
             catch (Exception ex)
             {
@@ -355,7 +355,20 @@ namespace ConsultWill
             }
         }
 
-
+        delegate void ShowCoffeeImageUpdateText(Control ctl);
+        
+        private void ShowCoffeeImage(Control ctl)
+        {
+            if (ctl.InvokeRequired)
+            {
+                ShowCoffeeImageUpdateText callbackMethod = new ShowCoffeeImageUpdateText(ShowCoffeeImage);
+                this.Invoke(callbackMethod, ctl);
+            }
+            else
+            {
+                ctl.Visible = true;
+            }
+        }
         private void todaysPatientsChanged(object sender, EventArgs e)
         {
             try
@@ -523,6 +536,11 @@ namespace ConsultWill
             {
                 StaticFunctions.HandleException(ex);
             }
+        }
+
+        private void picCoffee_Click(object sender, EventArgs e)
+        {
+            picCoffee.Visible = false;
         }
 
         //public void WatchForChangesToTodaysPatients()

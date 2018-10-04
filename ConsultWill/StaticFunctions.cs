@@ -202,7 +202,10 @@ namespace ConsultWill
         public static UserMode UserMode
         {
             get { return (UserMode)Properties.Settings.Default.UserMode; }
-            set { Properties.Settings.Default.UserMode = (int)value; }
+            set {
+                Properties.Settings.Default.UserMode = (int)value;
+                Properties.Settings.Default.Save();
+            }
         }
 
         public static string StorageFolder
