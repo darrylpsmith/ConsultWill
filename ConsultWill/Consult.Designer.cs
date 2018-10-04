@@ -175,6 +175,7 @@
             // 
             // lstPatientFiles
             // 
+            this.lstPatientFiles.ForeColor = System.Drawing.SystemColors.Highlight;
             this.lstPatientFiles.FormattingEnabled = true;
             this.lstPatientFiles.Location = new System.Drawing.Point(20, 495);
             this.lstPatientFiles.Margin = new System.Windows.Forms.Padding(2);
@@ -226,6 +227,7 @@
             // 
             this.lvwTodaysPatients.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colPatient});
+            this.lvwTodaysPatients.ForeColor = System.Drawing.Color.BlueViolet;
             this.lvwTodaysPatients.Location = new System.Drawing.Point(569, 61);
             this.lvwTodaysPatients.Name = "lvwTodaysPatients";
             this.lvwTodaysPatients.Size = new System.Drawing.Size(215, 374);
