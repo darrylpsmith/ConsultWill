@@ -130,6 +130,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Configure";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configure";
             this.Load += new System.EventHandler(this.Configure_Load);
             this.ResumeLayout(false);

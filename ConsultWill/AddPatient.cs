@@ -36,13 +36,19 @@ namespace ConsultWill
                 {
                     Directory.CreateDirectory(folderName);
                     string FileName = folderName + "\\" + StaticFunctions.ClinicalNotesFileName;
+
+                    this.Hide();
+                    Application.UseWaitCursor = true;
+                    Application.DoEvents();
                     StaticFunctions.CreateWordDoc(FileName);
+                    Application.UseWaitCursor = false;
                     PatientName = txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text;
                     this.DialogResult = DialogResult.OK;
                     this.Hide();
                 }
                 else
                 {
+                    Application.UseWaitCursor = false;
                     MessageBox.Show("That patient already exists", "Patient Exists", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 

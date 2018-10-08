@@ -74,7 +74,7 @@ namespace ConsultWill
 
         }
 
-        public static void OpenWordDoc(string FileName)
+        public static Microsoft.Office.Interop.Word.Document OpenWordDoc(string FileName)
         {
             const int wdStory = 6;
 
@@ -88,8 +88,7 @@ namespace ConsultWill
                 doc.Activate();
                 wordApp.Activate();
                 wordApp.Selection.EndKey(wdStory);
-                doc = null;
-                wordApp = null;
+                return doc;
             }
             catch (Exception ex)
             {
@@ -99,9 +98,35 @@ namespace ConsultWill
                     wordApp = null;
                 }
                 StaticFunctions.HandleException(ex);
-
+                return null;
             }
 
+        }
+
+
+        public static void ReplaceInDoc(Microsoft.Office.Interop.Word.Document  theDoc, string ReplaceIt, string ReplaceWith)
+        {
+            Microsoft.Office.Interop.Word.WdFindWrap wdFindAsk = (Microsoft.Office.Interop.Word.WdFindWrap) 2;
+
+            Microsoft.Office.Interop.Word.Application wordApp = theDoc.Application;
+
+            var wdReplaceAll = 2;
+
+            wordApp.Selection.WholeStory();
+            wordApp.Selection.Find.ClearFormatting();
+            wordApp.Selection.Find.Replacement.ClearFormatting();
+            wordApp.Selection.Find.Text = ReplaceIt;
+            wordApp.Selection.Find.Replacement.Text = ReplaceWith;
+            wordApp.Selection.Find.Forward = true;
+            wordApp.Selection.Find.Wrap = wdFindAsk;
+            wordApp.Selection.Find.Format = false;
+            wordApp.Selection.Find.MatchCase = false;
+            wordApp.Selection.Find.MatchWholeWord = false;
+            wordApp.Selection.Find.MatchWildcards = false;
+            wordApp.Selection.Find.MatchSoundsLike = false;
+            wordApp.Selection.Find.MatchAllWordForms = false;
+
+            wordApp.Selection.Find.Execute(Replace: wdReplaceAll);
         }
 
         public static string ClipBoardFile
@@ -120,6 +145,13 @@ namespace ConsultWill
             }
         }
 
+        public static string TemplatesFolder
+        {
+            get
+            {
+                return StorageFolder + "\\" + "TEMPLATES";
+            }
+        }
         public static string ConsultTrackerFolder
         {
             get
@@ -199,6 +231,49 @@ namespace ConsultWill
             }
         }
 
+        public static string DoctorMessageFile
+        {
+            get
+            {
+                return "Doctor_Message.txt";
+            }
+        }
+
+        public static string PAMessageFile
+        {
+            get
+            {
+                return "PA_Message.txt";
+            }
+        }
+
+        public static string DoctorMessage
+        {
+            get
+            {
+                string messageFile = StaticFunctions.ConsultTrackerFolder + "\\" + StaticFunctions.DoctorMessageFile;
+                File.Copy(messageFile, messageFile + "xxx");
+                string msg =  File.ReadAllText(messageFile + "xxx");
+                File.Delete(messageFile + "xxx");
+                return msg;
+            }
+        }
+
+        public static string PAMessage
+        {
+            get
+            {
+                string messageFile = StaticFunctions.ConsultTrackerFolder + "\\" + StaticFunctions.PAMessageFile;
+                File.Copy(messageFile, messageFile + "xxx");
+                string msg = File.ReadAllText(messageFile + "xxx");
+                File.Delete(messageFile + "xxx");
+                return msg;
+            }
+        }
+
+
+
+
         public static UserMode UserMode
         {
             get { return (UserMode)Properties.Settings.Default.UserMode; }
@@ -221,6 +296,114 @@ namespace ConsultWill
             }
         }
 
+        public static List<DocumentAssignmentFolder> PatientDocumentConfig ()
+        {
+            List<DocumentAssignmentFolder> folders = new List<DocumentAssignmentFolder>();
+            folders.Add(PatientConsultDocsConfig);
+            folders.Add(PatientInvestigationsAndRadiologyDocsConfig);
+            folders.Add(PatientProblemQuestionaireDocsConfig);
+            folders.Add(PatientPreOperationsDocsConfig);
+            folders.Add(PatientPostOperationsDocsConfig);
+            return folders;
+        }
+
+        private static DocumentAssignmentFolder PatientPreOperationsDocsConfig
+        {
+            get {
+                return new DocumentAssignmentFolder {
+                    DisplayName = "Pre Surgical Operations",
+                    FolderName = "PreOperations",
+                    RemoveSourceFilesWhenAssigningToFolder = true,
+                    ParentFolderName =  "[PATIENT]" } ;
+                }
+        }
+
+        private static DocumentAssignmentFolder PatientPostOperationsDocsConfig
+        {
+            get
+            {
+                return new DocumentAssignmentFolder
+                {
+                    DisplayName = "Post Surgical Operations",
+                    FolderName = "Operations",
+                    RemoveSourceFilesWhenAssigningToFolder = true,
+                    ParentFolderName = "[PATIENT]"
+                };
+            }
+        }
+        private static DocumentAssignmentFolder PatientConsultDocsConfig
+        {
+            get
+            {
+                return new DocumentAssignmentFolder
+                {
+                    DisplayName = "Consults",
+                    FolderName = "Correspondence & Notes",
+                    RemoveSourceFilesWhenAssigningToFolder = true,
+                    ParentFolderName = "[PATIENT]"
+                };
+            }
+        }
+
+        private static DocumentAssignmentFolder PatientInvestigationsAndRadiologyDocsConfig
+        {
+            get
+            {
+                return new DocumentAssignmentFolder
+                {
+                    DisplayName = "Radiology & Investigations",
+                    FolderName = "Radiology & Investigations",
+                    RemoveSourceFilesWhenAssigningToFolder = true,
+                    ParentFolderName = "[PATIENT]"
+                };
+            }
+        }
+
+        private static DocumentAssignmentFolder PatientProblemQuestionaireDocsConfig
+        {
+            get
+            {
+                return new DocumentAssignmentFolder
+                {
+                    DisplayName = "Patient Questionaires",
+                    FolderName = "Patient Questionaires",
+                    RemoveSourceFilesWhenAssigningToFolder = true,
+                    ParentFolderName = "[PATIENT]"
+                };
+            }
+        }
+
+        public static string GetSelectedPatientFolder(string Person)
+        {
+            string selPatient = Person;
+            string subFolder = StaticFunctions.PatientsRootFolder + "\\" + selPatient.Substring(0, 1);
+            string patientFolder = subFolder + "\\" + selPatient;
+            return patientFolder;
+        }
+
+        public static string GetSelectedPatientDocumentFolder(string Person, string Subfolder)
+        {
+            string patientFolder = StaticFunctions.GetSelectedPatientFolder(Person);
+            string patientRadFolder = patientFolder + "\\" +  Subfolder + "\\"; // "\\" + @"Radiology & Investigations" + "\\";
+            return patientRadFolder;
+        }
+
+        public static string GetSelectedPatientOperationFolder(string Person)
+        {
+            string selPatient = Person;
+            string subFolder = StaticFunctions.PatientsRootFolder + "\\" + selPatient.Substring(0, 1) ;
+            string patientFolder = subFolder + "\\" + selPatient + "\\Operations";
+            return patientFolder;
+        }
+
+
+        public static string GetSelectedPatientCommentFolder(string Person)
+        {
+            string selPatient = Person;
+            string subFolder = StaticFunctions.PatientsRootFolder + "\\" + selPatient.Substring(0, 1);
+            string patientFolder = subFolder + "\\" + selPatient + "\\Comments";
+            return patientFolder;
+        }
 
     }
 }
