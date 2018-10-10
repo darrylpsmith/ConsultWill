@@ -24,6 +24,9 @@ namespace ConsultWill
         private void btnOk_Click(object sender, EventArgs e)
         {
 
+            int wdToggle = 9999998;
+            int wdLine = 5;
+
             try
             {
                 string folderName = txtLasteName.Text.Substring(0, 1).ToUpper() + "\\" + txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text;
@@ -40,8 +43,23 @@ namespace ConsultWill
                     this.Hide();
                     Application.UseWaitCursor = true;
                     Application.DoEvents();
-                    StaticFunctions.CreateWordDoc(FileName);
+
+                    var doc = StaticFunctions.CreateWordDoc(FileName, false);
+
+
+                    doc.Application.Selection.TypeText (Text: txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text);
+                    doc.Application.Selection.TypeParagraph();
+                    doc.Range(0, 0).Select();
+                    doc.Application.Selection.MoveEnd (wdLine);
+                    
+                    doc.Application.Selection.Font.Size = 20;
+                    doc.Application.Selection.Font.Bold = wdToggle;
+
+                    doc.Save();
+                    doc.Application.Quit(false);
                     Application.UseWaitCursor = false;
+
+                    
                     PatientName = txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text;
                     this.DialogResult = DialogResult.OK;
                     this.Hide();

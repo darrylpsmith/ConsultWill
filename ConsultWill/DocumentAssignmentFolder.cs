@@ -13,6 +13,7 @@ namespace ConsultWill
         public string DisplayName { get; set; }
         public bool RemoveSourceFilesWhenAssigningToFolder { get; set; }
         public string FileAssignmentRenamePattern { get; set; }
+        public bool UseLargeImages { get; set; }
     }
 
 

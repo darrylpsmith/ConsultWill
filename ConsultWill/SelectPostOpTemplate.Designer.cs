@@ -40,6 +40,8 @@
             this.lstTemplates.Name = "lstTemplates";
             this.lstTemplates.Size = new System.Drawing.Size(218, 238);
             this.lstTemplates.TabIndex = 0;
+            this.lstTemplates.SelectedIndexChanged += new System.EventHandler(this.lstTemplates_SelectedIndexChanged);
+            this.lstTemplates.DoubleClick += new System.EventHandler(this.lstTemplates_DoubleClick);
             // 
             // btnCancel
             // 
@@ -73,6 +75,7 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.lstTemplates);
             this.Name = "SelectPostOpTemplate";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SelectPostOpTemplate";
             this.Load += new System.EventHandler(this.SelectPostOpTemplate_Load);
             this.ResumeLayout(false);

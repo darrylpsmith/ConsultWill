@@ -38,6 +38,8 @@
             this.txtReferringDoc = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
+            this.txtReferEmail = new System.Windows.Forms.TextBox();
+            this.lblEmail = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblFirstName
@@ -134,12 +136,32 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // txtReferEmail
+            // 
+            this.txtReferEmail.Location = new System.Drawing.Point(148, 69);
+            this.txtReferEmail.Margin = new System.Windows.Forms.Padding(2);
+            this.txtReferEmail.Name = "txtReferEmail";
+            this.txtReferEmail.Size = new System.Drawing.Size(127, 20);
+            this.txtReferEmail.TabIndex = 13;
+            // 
+            // lblEmail
+            // 
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(146, 53);
+            this.lblEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(113, 13);
+            this.lblEmail.TabIndex = 12;
+            this.lblEmail.Text = "Referring Doctor Email";
+            // 
             // AddPatient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 151);
             this.ControlBox = false;
+            this.Controls.Add(this.txtReferEmail);
+            this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtReferringDoc);
@@ -173,5 +195,7 @@
         private System.Windows.Forms.TextBox txtReferringDoc;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.TextBox txtReferEmail;
+        private System.Windows.Forms.Label lblEmail;
     }
 }

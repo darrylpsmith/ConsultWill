@@ -28,21 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lstDocuments = new System.Windows.Forms.ListBox();
+            this.components = new System.ComponentModel.Container();
             this.lblDescription = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.lvwDocuments = new System.Windows.Forms.ListView();
+            this.colPatient = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imgThumbnails = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
-            // 
-            // lstDocuments
-            // 
-            this.lstDocuments.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lstDocuments.FormattingEnabled = true;
-            this.lstDocuments.Location = new System.Drawing.Point(2, 27);
-            this.lstDocuments.Margin = new System.Windows.Forms.Padding(2);
-            this.lstDocuments.Name = "lstDocuments";
-            this.lstDocuments.Size = new System.Drawing.Size(226, 69);
-            this.lstDocuments.TabIndex = 16;
-            this.lstDocuments.DoubleClick += new System.EventHandler(this.lstDocuments_DoubleClick);
             // 
             // lblDescription
             // 
@@ -64,16 +56,40 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // lvwDocuments
+            // 
+            this.lvwDocuments.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colPatient});
+            this.lvwDocuments.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.lvwDocuments.Location = new System.Drawing.Point(3, 32);
+            this.lvwDocuments.Name = "lvwDocuments";
+            this.lvwDocuments.Size = new System.Drawing.Size(224, 197);
+            this.lvwDocuments.TabIndex = 25;
+            this.lvwDocuments.UseCompatibleStateImageBehavior = false;
+            this.lvwDocuments.SelectedIndexChanged += new System.EventHandler(this.lvwDocuments_SelectedIndexChanged);
+            this.lvwDocuments.DoubleClick += new System.EventHandler(this.lvwDocuments_DoubleClick);
+            // 
+            // colPatient
+            // 
+            this.colPatient.Text = "File";
+            this.colPatient.Width = 180;
+            // 
+            // imgThumbnails
+            // 
+            this.imgThumbnails.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imgThumbnails.ImageSize = new System.Drawing.Size(16, 16);
+            this.imgThumbnails.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // DocumentStore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.lvwDocuments);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.lstDocuments);
             this.Controls.Add(this.lblDescription);
             this.Name = "DocumentStore";
-            this.Size = new System.Drawing.Size(230, 102);
+            this.Size = new System.Drawing.Size(230, 231);
             this.Load += new System.EventHandler(this.DocumentStore_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -81,9 +97,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox lstDocuments;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.ListView lvwDocuments;
+        private System.Windows.Forms.ColumnHeader colPatient;
+        private System.Windows.Forms.ImageList imgThumbnails;
     }
 }

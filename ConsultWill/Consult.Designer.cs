@@ -34,7 +34,6 @@
             this.configurationToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.orderCoffeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.picCoffee = new System.Windows.Forms.PictureBox();
-            this.lblPostOperations = new System.Windows.Forms.Label();
             this.flowDocuments = new System.Windows.Forms.FlowLayoutPanel();
             this.flowMain = new System.Windows.Forms.FlowLayoutPanel();
             this.flowMain1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -42,6 +41,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.txtMsgshort = new System.Windows.Forms.TextBox();
+            this.lblChat = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCoffee)).BeginInit();
             this.statusBar.SuspendLayout();
@@ -53,7 +53,7 @@
             this.moreToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(646, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1217, 24);
             this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -71,14 +71,14 @@
             // configurationToolStripMenuItem1
             // 
             this.configurationToolStripMenuItem1.Name = "configurationToolStripMenuItem1";
-            this.configurationToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
+            this.configurationToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.configurationToolStripMenuItem1.Text = "Configuration";
             this.configurationToolStripMenuItem1.Click += new System.EventHandler(this.configurationToolStripMenuItem1_Click);
             // 
             // orderCoffeeToolStripMenuItem
             // 
             this.orderCoffeeToolStripMenuItem.Name = "orderCoffeeToolStripMenuItem";
-            this.orderCoffeeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.orderCoffeeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.orderCoffeeToolStripMenuItem.Text = "Order Coffee";
             this.orderCoffeeToolStripMenuItem.Click += new System.EventHandler(this.orderCoffeeToolStripMenuItem_Click);
             // 
@@ -86,30 +86,20 @@
             // 
             this.picCoffee.Image = ((System.Drawing.Image)(resources.GetObject("picCoffee.Image")));
             this.picCoffee.InitialImage = ((System.Drawing.Image)(resources.GetObject("picCoffee.InitialImage")));
-            this.picCoffee.Location = new System.Drawing.Point(128, 709);
+            this.picCoffee.Location = new System.Drawing.Point(878, 34);
             this.picCoffee.Margin = new System.Windows.Forms.Padding(2);
             this.picCoffee.Name = "picCoffee";
-            this.picCoffee.Size = new System.Drawing.Size(40, 22);
+            this.picCoffee.Size = new System.Drawing.Size(40, 38);
             this.picCoffee.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCoffee.TabIndex = 23;
             this.picCoffee.TabStop = false;
             this.picCoffee.Visible = false;
             this.picCoffee.Click += new System.EventHandler(this.picCoffee_Click);
             // 
-            // lblPostOperations
-            // 
-            this.lblPostOperations.AutoSize = true;
-            this.lblPostOperations.Location = new System.Drawing.Point(1214, 629);
-            this.lblPostOperations.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPostOperations.Name = "lblPostOperations";
-            this.lblPostOperations.Size = new System.Drawing.Size(58, 13);
-            this.lblPostOperations.TabIndex = 30;
-            this.lblPostOperations.Text = "Operations";
-            // 
             // flowDocuments
             // 
             this.flowDocuments.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.flowDocuments.Location = new System.Drawing.Point(678, 297);
+            this.flowDocuments.Location = new System.Drawing.Point(963, 254);
             this.flowDocuments.Name = "flowDocuments";
             this.flowDocuments.Size = new System.Drawing.Size(486, 249);
             this.flowDocuments.TabIndex = 0;
@@ -118,7 +108,7 @@
             // 
             this.flowMain.Location = new System.Drawing.Point(12, 361);
             this.flowMain.Name = "flowMain";
-            this.flowMain.Size = new System.Drawing.Size(620, 333);
+            this.flowMain.Size = new System.Drawing.Size(1133, 233);
             this.flowMain.TabIndex = 34;
             // 
             // flowMain1
@@ -132,9 +122,9 @@
             // 
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusBar.Location = new System.Drawing.Point(0, 709);
+            this.statusBar.Location = new System.Drawing.Point(0, 622);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(646, 22);
+            this.statusBar.Size = new System.Drawing.Size(1217, 22);
             this.statusBar.TabIndex = 36;
             this.statusBar.Text = "statusStrip1";
             // 
@@ -147,7 +137,7 @@
             // txtMessage
             // 
             this.txtMessage.Enabled = false;
-            this.txtMessage.Location = new System.Drawing.Point(683, 53);
+            this.txtMessage.Location = new System.Drawing.Point(683, 76);
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -156,25 +146,34 @@
             // 
             // txtMsgshort
             // 
-            this.txtMsgshort.Location = new System.Drawing.Point(683, 167);
+            this.txtMsgshort.Location = new System.Drawing.Point(683, 190);
             this.txtMsgshort.Name = "txtMsgshort";
             this.txtMsgshort.Size = new System.Drawing.Size(235, 20);
             this.txtMsgshort.TabIndex = 38;
             this.txtMsgshort.TextChanged += new System.EventHandler(this.txtMsgshort_TextChanged);
             this.txtMsgshort.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMsgshort_KeyDown);
             // 
+            // lblChat
+            // 
+            this.lblChat.AutoSize = true;
+            this.lblChat.Location = new System.Drawing.Point(680, 50);
+            this.lblChat.Name = "lblChat";
+            this.lblChat.Size = new System.Drawing.Size(29, 13);
+            this.lblChat.TabIndex = 39;
+            this.lblChat.Text = "Chat";
+            // 
             // frmConsult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(646, 731);
+            this.ClientSize = new System.Drawing.Size(1217, 644);
+            this.Controls.Add(this.lblChat);
             this.Controls.Add(this.txtMsgshort);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.picCoffee);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.flowMain1);
             this.Controls.Add(this.flowMain);
-            this.Controls.Add(this.lblPostOperations);
             this.Controls.Add(this.flowDocuments);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -196,7 +195,6 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.PictureBox picCoffee;
-        private System.Windows.Forms.Label lblPostOperations;
         private System.Windows.Forms.FlowLayoutPanel flowDocuments;
         private System.Windows.Forms.FlowLayoutPanel flowMain;
         private System.Windows.Forms.FlowLayoutPanel flowMain1;
@@ -207,6 +205,7 @@
         private System.Windows.Forms.ToolStripMenuItem orderCoffeeToolStripMenuItem;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.TextBox txtMsgshort;
+        private System.Windows.Forms.Label lblChat;
     }
 }
 

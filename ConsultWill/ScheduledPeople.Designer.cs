@@ -75,10 +75,10 @@
             // btnRefresh
             // 
             this.btnRefresh.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnRefresh.Location = new System.Drawing.Point(49, 274);
+            this.btnRefresh.Location = new System.Drawing.Point(33, 274);
             this.btnRefresh.Margin = new System.Windows.Forms.Padding(2);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(56, 24);
+            this.btnRefresh.Size = new System.Drawing.Size(72, 24);
             this.btnRefresh.TabIndex = 27;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;

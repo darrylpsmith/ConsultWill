@@ -28,6 +28,12 @@ namespace ConsultWill
         public delegate void AddOperationButtonPressed();
         public event AddOperationButtonPressed addOperationButtonPressed;
 
+
+
+        public delegate void StatusMessagee(string Status, bool DisableUI);
+        public event StatusMessagee statusMessagee;
+
+
         string _currPerson = null;
         public ButtonsControl()
         {
@@ -96,6 +102,7 @@ namespace ConsultWill
         {
             try
             {
+                statusMessagee("View patient file...", true);
 
                 string patientFolder = StaticFunctions.GetSelectedPatientFolder(_currPerson);
                 string patientDetailsFilePng = patientFolder + "\\" + StaticFunctions.PatientFilePng;
@@ -107,6 +114,8 @@ namespace ConsultWill
                     System.Diagnostics.Process.Start(patientDetailsFilePdf);
                 else
                     MessageBox.Show(patientDetailsFilePng + " does not exist", "Missing Patient File", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                statusMessagee("", false);
             }
             catch (Exception ex)
             {
@@ -118,13 +127,32 @@ namespace ConsultWill
         {
             try
             {
+                statusMessagee("Launching Clinical Notes...", true);
                 string patientFolder = StaticFunctions.GetSelectedPatientFolder(_currPerson);
                 string clinicalNotesFile = patientFolder + "\\" + StaticFunctions.ClinicalNotesFileName;
-                StaticFunctions.OpenWordDoc(clinicalNotesFile);
+                if (File.Exists(clinicalNotesFile))
+                {
+                    StaticFunctions.OpenWordDoc(clinicalNotesFile);
+                }
+                else
+                {
+                    string folderName;
+
+                    folderName = _currPerson;
+
+                    folderName = StaticFunctions.PatientsRootFolder + "\\" + _currPerson.Substring(0,1) + "\\" +  folderName;
+
+                    string FileName = folderName + "\\" + StaticFunctions.ClinicalNotesFileName;
+
+                    StaticFunctions.CreateWordDoc(FileName, true);
+                }
+
+                statusMessagee("", false);
             }
             catch (Exception ex)
             {
                 StaticFunctions.HandleException(ex);
+                statusMessagee("", false);
             }
         }
 
@@ -173,6 +201,8 @@ namespace ConsultWill
         {
             try
             {
+                statusMessagee("Adding post Operation document...", true);
+
                 SelectPostOpTemplate post = new SelectPostOpTemplate();
                 post.ShowDialog();
                 string selectedTemplate = post.SelectedTemplate();
@@ -184,6 +214,10 @@ namespace ConsultWill
 
                     string targetFile;
 
+                    if (Directory.Exists(StaticFunctions.GetSelectedPatientOperationFolder(_currPerson)) == false)
+                    {
+                        Directory.CreateDirectory(StaticFunctions.GetSelectedPatientOperationFolder(_currPerson));
+                    }
 
                     targetFile = StaticFunctions.GetSelectedPatientOperationFolder(_currPerson) + "\\" + selectedTemplate;
                     targetFile = targetFile.Replace(".doc", fileNumber.ToString() + ".doc");
@@ -205,6 +239,9 @@ namespace ConsultWill
 
                     addOperationButtonPressed();
                 }
+
+                
+                statusMessagee("", false);
             }
             catch (Exception ex)
             {

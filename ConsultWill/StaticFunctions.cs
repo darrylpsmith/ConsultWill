@@ -45,7 +45,7 @@ namespace ConsultWill
             get { return StorageFolder + "\\" + "PATIENTS"; }
         }
 
-        public static void CreateWordDoc(string FileName)
+        public static Microsoft.Office.Interop.Word.Document CreateWordDoc(string FileName, bool closeOnCreate)
         {
             const int wdFormatDocument = 0;
 
@@ -56,10 +56,19 @@ namespace ConsultWill
                 var doc = wordApp.Documents.Add();
                 //wordApp.Visible = true;
                 doc.SaveAs2(FileName, wdFormatDocument);
-                doc.Close();
-                doc = null;
-                wordApp.Quit();
-                wordApp = null;
+
+                if (closeOnCreate)
+                {
+                    doc.Close();
+                    wordApp.Quit();
+                    wordApp = null;
+                    return null;
+                }
+                else
+                {
+                    return doc;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -69,6 +78,7 @@ namespace ConsultWill
                     wordApp = null;
                 }
                 StaticFunctions.HandleException(ex);
+                return null;
 
             }
 
@@ -324,7 +334,7 @@ namespace ConsultWill
             {
                 return new DocumentAssignmentFolder
                 {
-                    DisplayName = "Post Surgical Operations",
+                    DisplayName = "Operation Notes",
                     FolderName = "Operations",
                     RemoveSourceFilesWhenAssigningToFolder = true,
                     ParentFolderName = "[PATIENT]"
@@ -337,7 +347,7 @@ namespace ConsultWill
             {
                 return new DocumentAssignmentFolder
                 {
-                    DisplayName = "Consults",
+                    DisplayName = "Correspondence && Notes",
                     FolderName = "Correspondence & Notes",
                     RemoveSourceFilesWhenAssigningToFolder = true,
                     ParentFolderName = "[PATIENT]"
@@ -351,10 +361,11 @@ namespace ConsultWill
             {
                 return new DocumentAssignmentFolder
                 {
-                    DisplayName = "Radiology & Investigations",
+                    DisplayName = "Radiology && Investigations",
                     FolderName = "Radiology & Investigations",
                     RemoveSourceFilesWhenAssigningToFolder = true,
-                    ParentFolderName = "[PATIENT]"
+                    ParentFolderName = "[PATIENT]",
+                    UseLargeImages = true
                 };
             }
         }

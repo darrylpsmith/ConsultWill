@@ -50,6 +50,7 @@ namespace ConsultWill
             _buttonsContainer.addPersonButtonCancelled += _buttonsContainer_addPersonButtonCancelled;
             _scheduledPeople.selectedPersonChanged += _scheduledPeople_selectedPersonChanged;
             _buttonsContainer.addOperationButtonPressed += _buttonsContainer_addOperationButtonPressed;
+            _buttonsContainer.statusMessagee += _buttonsContainer_statusMessagee;
             this.flowMain1.Controls.Add(_personSearch);
             this.flowMain1.Controls.Add(_buttonsContainer);
             this.flowMain1.Controls.Add(_scheduledPeople);
@@ -67,7 +68,7 @@ namespace ConsultWill
                 flowDocuments.AutoSize = true;
                 //flowMain.AutoSize = true;
                 Y = Y + GAP;
-                DocumentStore ds = new DocumentStore(docType, X, Y);
+                DocumentStore ds = new DocumentStore(docType, X, Y, docType.UseLargeImages);
                 _patientDocumentControls.Add(ds);
                 _opearionsDocuments = ds;
                 //this.pnlDocuments.Controls.Add(ds);
@@ -82,6 +83,24 @@ namespace ConsultWill
             }
 
             toolStripStatusLabel1.Text = "";
+        }
+
+        private void _buttonsContainer_statusMessagee(string Status, bool DisableUI)
+        {
+            toolStripStatusLabel1.Text = Status;
+            this.Enabled = !DisableUI;
+        }
+
+        private void _buttonsContainer_addPostOpButtonPComplete()
+        {
+            toolStripStatusLabel1.Text = "";
+            this.Enabled = true;
+        }
+
+        private void _buttonsContainer_addPostOpButtonPressed()
+        {
+            toolStripStatusLabel1.Text = "Adding Post Operation Document....";
+            this.Enabled = false;
         }
 
         private void _buttonsContainer_addOperationButtonPressed()
@@ -125,11 +144,13 @@ namespace ConsultWill
 
         private void SelectedPersonChanged(string Person)
         {
+            _buttonsContainer_statusMessagee("Selecting...", true);
             _personSearch.SetSearch(Person);
             foreach (var ctl in _patientDocumentControls)
             {
                 ctl.CurrentPerson = Person;
             }
+            _buttonsContainer_statusMessagee("", false);
         }
 
 

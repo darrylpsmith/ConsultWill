@@ -120,7 +120,7 @@
             this.btnPostOp.Name = "btnPostOp";
             this.btnPostOp.Size = new System.Drawing.Size(194, 45);
             this.btnPostOp.TabIndex = 17;
-            this.btnPostOp.Text = "Post Operation Document";
+            this.btnPostOp.Text = "Operation Notes";
             this.btnPostOp.UseVisualStyleBackColor = true;
             this.btnPostOp.Click += new System.EventHandler(this.btnPostOp_Click);
             // 

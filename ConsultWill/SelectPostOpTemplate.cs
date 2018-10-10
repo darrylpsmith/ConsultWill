@@ -61,5 +61,16 @@ namespace ConsultWill
         {
 
         }
+
+        private void lstTemplates_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstTemplates_DoubleClick(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            Hide();
+        }
     }
 }
