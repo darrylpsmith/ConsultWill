@@ -29,11 +29,10 @@ namespace ConsultWill
 
             try
             {
-                string folderName = txtLasteName.Text.Substring(0, 1).ToUpper() + "\\" + txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text;
+                string patient = txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text;
+                string folderName = StaticFunctions.GetSelectedPatientFolder(patient); //  txtLasteName.Text.Substring(0, 1).ToUpper() + "\\" + txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text;
 
                 folderName = folderName.ToUpper();
-
-                folderName = StaticFunctions.PatientsRootFolder + "\\" + folderName;
 
                 if (Directory.Exists(folderName) == false)
                 {
@@ -61,6 +60,14 @@ namespace ConsultWill
 
                     
                     PatientName = txtLasteName.Text + ", " + txtFirstName.Text + " " + txtPatientNumber.Text;
+
+
+                    if (txtReferringDocFname.Text.Length > 0 || txtReferringDocLname.Text.Length > 0)
+                    {
+                        Doctor referringDoc = new Doctor(txtReferringDocLname.Text, txtReferringDocFname.Text, txtReferEmail.Text);
+                        StaticFunctions.StoreReferringDoctor(patient, referringDoc);
+                    }
+
                     this.DialogResult = DialogResult.OK;
                     this.Hide();
                 }
@@ -78,6 +85,9 @@ namespace ConsultWill
 
         }
 
-
+        private void AddPatient_Load(object sender, EventArgs e)
+        {
+            this.ActiveControl = txtFirstName;
+        }
     }
 }

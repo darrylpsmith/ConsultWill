@@ -5,18 +5,23 @@ using System.Text;
 
 namespace ConsultWill
 {
-    public class Patient : Person
+    public class Patient 
     {
+
+        public string PatientNumber { get; set; }
+
+        public string Surname { get; set; }
+        public string FirstName { get; set; }
         public Patient(string patientString)
         {
             
             PatientNumber = patientString.Substring( patientString.LastIndexOf(' '));
-            base.Surname = patientString.Substring(0, patientString.IndexOf(','));
-            base.FirstName = patientString.Substring(patientString.IndexOf(',') + 1);
-            base.FirstName = base.FirstName.Substring(0, base.FirstName.LastIndexOf(' ')).Trim();
+            Surname = patientString.Substring(0, patientString.IndexOf(','));
+            FirstName = patientString.Substring(patientString.IndexOf(',') + 1);
+            FirstName = FirstName.Substring(0, FirstName.LastIndexOf(' ')).Trim();
         }
 
-        public string PatientNumber { get; set; }
+        
     }
 
 }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Word;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace ConsultWill
 {
@@ -415,6 +416,49 @@ namespace ConsultWill
             string patientFolder = subFolder + "\\" + selPatient + "\\Comments";
             return patientFolder;
         }
+
+        private static string GetSelectedPatientConsultTrackerFolder(string Person)
+        {
+            string patientFolder = StaticFunctions.GetSelectedPatientFolder(Person);
+            string patientRadFolder = patientFolder + "\\" + "ConsultTracker" + "\\"; 
+            return patientRadFolder;
+        }
+
+        public static void StoreReferringDoctor(string Person, Doctor referringDoctor)
+        {
+            string path = GetSelectedPatientConsultTrackerFolder(Person);
+            if (Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string output = JsonConvert.SerializeObject(referringDoctor);
+
+            File.WriteAllText(path + "//" + "ReferringDoctor.json", output);
+
+            
+
+        }
+
+        public static Doctor GetReferringDoctor(string Person)
+        {
+
+            string path = GetSelectedPatientConsultTrackerFolder(Person);
+            string file = path + "//" + "ReferringDoctor.json";
+            Doctor deserializedDoctor = null;
+            if (Directory.Exists(path) == false)
+            {
+                if (File.Exists(file))
+                {
+                    string output = File.ReadAllText (path + "//" + "ReferringDoctor.json");
+                    deserializedDoctor = JsonConvert.DeserializeObject<Doctor>(output);
+                }
+            }
+
+            return deserializedDoctor;
+            
+        }
+
 
     }
 }
