@@ -33,5 +33,10 @@ namespace ConsultWill
         {
             Hide();
         }
+
+        private void Comments_Load(object sender, EventArgs e)
+        {
+            this.BackColor = Properties.Settings.Default.BackColor;
+        }
     }
 }

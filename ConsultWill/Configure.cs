@@ -16,6 +16,8 @@ namespace ConsultWill
         public Configure()
         {
             InitializeComponent();
+
+            this.BackColor = Properties.Settings.Default.BackColor;
         }
 
         private void btnChooseFolder_Click(object sender, EventArgs e)

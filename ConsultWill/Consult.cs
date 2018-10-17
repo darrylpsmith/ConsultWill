@@ -15,6 +15,8 @@ namespace ConsultWill
 
     public partial class frmConsult : Form
     {
+        private bool m_bLayoutCalled = false;
+        private DateTime m_dt;
 
         PersonSearch _personSearch = new PersonSearch();
         ScheduledPeople _scheduledPeople = new ScheduledPeople();
@@ -33,6 +35,9 @@ namespace ConsultWill
         public frmConsult()
         {
             InitializeComponent();
+
+            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.TestSplashScreen_Layout);
+
         }
         
         private void BuildForm()
@@ -83,6 +88,14 @@ namespace ConsultWill
             }
 
             toolStripStatusLabel1.Text = "";
+
+            this.BackColor = Properties.Settings.Default.BackColor;
+            foreach (var ctl in this.Controls)
+            {
+               //ctl.
+            }
+
+
         }
 
         private void _buttonsContainer_statusMessagee(string Status, bool DisableUI)
@@ -620,6 +633,18 @@ namespace ConsultWill
         {
 
         }
+
+        private void TestSplashScreen_Layout(object sender, System.Windows.Forms.LayoutEventArgs e)
+        {
+            if (m_bLayoutCalled == false)
+            {
+                m_bLayoutCalled = true;
+                m_dt = DateTime.Now;
+                this.Activate();
+                SplashScreen.CloseForm();
+            }
+        }
+
     }
 
 

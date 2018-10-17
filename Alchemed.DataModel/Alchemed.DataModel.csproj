@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Alchemint.Core">
+      <HintPath>..\..\..\Blockwerx\Sam.Api\Alchemint.Client.JsonAccess\bin\Release\netcoreapp2.1\Alchemint.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

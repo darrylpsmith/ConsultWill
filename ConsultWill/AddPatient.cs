@@ -24,6 +24,13 @@ namespace ConsultWill
         private void btnOk_Click(object sender, EventArgs e)
         {
 
+            //Alchemint.Client.JsonAccess.FabricJsonAccess fabricJsonAccess = new Alchemint.Client.JsonAccess.FabricJsonAccess("https://localhost:5001", "");
+            //fabricJsonAccess.CreateEntity(new Alchemint);
+            
+
+            
+
+
             int wdToggle = 9999998;
             int wdLine = 5;
 
@@ -88,6 +95,8 @@ namespace ConsultWill
         private void AddPatient_Load(object sender, EventArgs e)
         {
             this.ActiveControl = txtFirstName;
+            this.BackColor = Properties.Settings.Default.BackColor;
+            
         }
     }
 }
